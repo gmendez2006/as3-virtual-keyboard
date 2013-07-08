@@ -316,7 +316,7 @@ package nid.ui.controls.vkb
 
         private static function deactivate(e:MouseEvent):void
         {
-            VirtualKeyBoard.getInstance().hide();
+            VirtualKeyBoard.instance.hide();
         }
 
         public function build(param:* = null):void
@@ -368,7 +368,7 @@ package nid.ui.controls.vkb
                             icon = new tab_icon();
                             break;
                     }
-                    trace(currentLayout[raws][columns].c, 'icon:', icon);
+                    //trace(currentLayout[raws][columns].c, 'icon:', icon);
                     key = KeyFactory.getKey(ko.c, k_w, k_h, ko.t, icon);
 
                     key.x = x_pox;

@@ -21,7 +21,7 @@ package
             stage.scaleMode = StageScaleMode.NO_SCALE;
             stage.align = StageAlign.TOP_LEFT;
 
-            VirtualKeyBoard.getInstance().init(stage);
+            VirtualKeyBoard.instance.init(stage);
 
             var txt:TextField = new TextField();
             txt.width = 300;
@@ -40,7 +40,7 @@ package
 
         private function toggleKeyboard(e:MouseEvent):void
         {
-            VirtualKeyBoard.getInstance().target = { field: e.currentTarget, fieldName: "Test" };
+            VirtualKeyBoard.instance.target = { field: e.currentTarget, fieldName: "Test" };
         }
     }
 }

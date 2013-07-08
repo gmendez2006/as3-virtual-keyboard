@@ -17,15 +17,15 @@ package  nid.ui.controls
      */
     public class VirtualKeyBoard extends Sprite
     {
-        private static var instance:VirtualKeyBoard;
+        private static var _instance:VirtualKeyBoard;
 
-        public static function getInstance():VirtualKeyBoard
+        public static function get instance():VirtualKeyBoard
         {
-            if (instance === null)
+            if (_instance === null)
             {
-                instance = new VirtualKeyBoard();
+                _instance = new VirtualKeyBoard();
             }
-            return instance;
+            return _instance;
         }
 
         /**
@@ -41,7 +41,6 @@ package  nid.ui.controls
         public function VirtualKeyBoard()
         {
             configUI();
-
         }
 
         private function configUI():void
@@ -54,7 +53,7 @@ package  nid.ui.controls
 
         private function updateTarget(e:KeyBoardEvent):void
         {
-            trace(e.char);
+            //trace(e.char);
             switch (e.char)
             {
                 case '{del}':
@@ -126,27 +125,25 @@ package  nid.ui.controls
 
         public function show():void
         {
-            keyboard.y = _stage.stageHeight;
+            const startY:int = _stage.stageHeight;
+            keyboard.y = startY;
             keyboard.alpha = 0;
             _stage.addChild(keyboard);
-            Tweener.addTween(keyboard,
-                             { alpha: 1, y: _stage.stageHeight -
-                                            keyboard.height, time: 0.5, transition: "easeOutQuart" });
+            const endY:Number = startY - keyboard.height;
+            Tweener.addTween(keyboard, {alpha: 1, y: endY, time: 0.5, transition: "easeOutQuart"});
             isActive = true;
         }
 
         public function hide():void
         {
-            Tweener.addTween(keyboard,
-                             {alpha: 0, y: _stage.stageHeight +
-                                           50, time: 0.5, transition: "easeOutQuart", onComplete: flush });
+            var endY:int = _stage.stageHeight + 50;
+            Tweener.addTween(keyboard, {alpha: 0, y: endY, time: 0.5, transition: "easeOutQuart", onComplete: flush });
         }
 
         private function flush():void
         {
             isActive = false;
-            if (this.parent !== null)
-                this.parent.removeChild(this);
+            if (parent !== null) parent.removeChild(this);
         }
     }
 
