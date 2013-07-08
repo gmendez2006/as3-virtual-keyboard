@@ -339,21 +339,21 @@ package nid.ui.controls.vkb
             var x_pox:int = 0;
             var y_pox:int = 0;
 
-            for (var raws:int = 0; raws < currentLayout.length; raws++)
+            for (var rows:uint = 0, n:uint = currentLayout.length; rows < n; rows++)
             {
-                var raw:Sprite = new Sprite();
+                var row:Sprite = new Sprite();
 
-                for (var columns:int = 0; columns < currentLayout[raws].length; columns++)
+                for (var columns:int = 0; columns < currentLayout[rows].length; columns++)
                 {
                     var key:IKey;
-                    var ko:Object = currentLayout[raws][columns];
+                    var ko:Object = currentLayout[rows][columns];
                     var icon:Bitmap = null;
 
                     k_w = ko.w * ((_stage.stageWidth - 40) / 800);
                     k_h = ko.h;
 
                     //noinspection SwitchStatementWithNoDefaultBranchJS
-                    switch (currentLayout[raws][columns].c)
+                    switch (currentLayout[rows][columns].c)
                     {
                         case '{del}':
                             icon = new delete_icon();
@@ -368,7 +368,7 @@ package nid.ui.controls.vkb
                             icon = new tab_icon();
                             break;
                     }
-                    //trace(currentLayout[raws][columns].c, 'icon:', icon);
+                    //trace(currentLayout[rows][columns].c, 'icon:', icon);
                     key = KeyFactory.getKey(ko.c, k_w, k_h, ko.t, icon);
 
                     key.x = x_pox;
@@ -377,16 +377,16 @@ package nid.ui.controls.vkb
                     key.addEventListener(MouseEvent.CLICK, handlEvent);
                     key.addEventListener(TouchEvent.TOUCH_TAP, handlEvent);
 
-                    raw.addChild(DisplayObject(key));
+                    row.addChild(DisplayObject(key));
                     x_pox += (key.width + 10);
                 }
 
                 x_pox = 0;
                 y_pox += (k_h + 10);
 
-                raw.x = _stage.stageWidth / 2 - raw.width / 2;
+                row.x = _stage.stageWidth / 2 - row.width / 2;
 
-                keyholder.addChild(raw);
+                keyholder.addChild(row);
             }
 
             keyholder.y = inputArea.height + 20;
