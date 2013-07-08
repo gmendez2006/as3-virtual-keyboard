@@ -1,17 +1,17 @@
 package  nid.ui.controls
 {
-	import caurina.transitions.Tweener;
-	import flash.display.DisplayObject;
-	import flash.display.Sprite;
-	import flash.display.Stage;
-	import flash.display.StageAlign;
-	import flash.display.StageScaleMode;
-	import flash.events.Event;
-	import flash.text.TextField;
-	import nid.ui.controls.vkb.KeyBoardEvent;
-	import nid.ui.controls.vkb.KeyBoardUI;
-	
-	/**
+    import caurina.transitions.Tweener;
+
+    import flash.display.Sprite;
+    import flash.display.Stage;
+    import flash.events.Event;
+
+    import nid.ui.controls.vkb.KeyBoardEvent;
+    import nid.ui.controls.vkb.KeyBoardUI;
+
+    import spark.core.IEditableText;
+
+    /**
 	 * ...
 	 * @author Nidin P Vinayakan
 	 */
@@ -30,7 +30,7 @@ package  nid.ui.controls
 		/**
 		 * Properties
 		 */
-		private var targetField:TextField;
+		private var targetField:IEditableText;
 		private var referenceText:String='';
 		private var keyboard:KeyBoardUI;
 		private var isActive:Boolean;
@@ -130,11 +130,9 @@ package  nid.ui.controls
 				keyboard.y = _stage.stageHeight  - keyboard.height;
 			}
 		}
-		public function init(target:DisplayObject):void
+		public function init(target:Stage):void
 		{
-			_stage 			 = target.stage;
-			_stage.scaleMode = StageScaleMode.NO_SCALE;
-			_stage.align 	 = StageAlign.TOP_LEFT;
+			_stage 			 = target;
 			keyboard._stage  = _stage;
 			_stage.addEventListener(Event.RESIZE, resize);
 		}
