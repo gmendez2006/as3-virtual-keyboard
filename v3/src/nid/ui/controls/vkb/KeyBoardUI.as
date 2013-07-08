@@ -285,7 +285,12 @@ package nid.ui.controls.vkb
         public function KeyBoardUI()
         {
             config();
-            addEventListener(Event.ADDED_TO_STAGE, build);
+            addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
+        }
+
+        private function onAddedToStage(event:Event):void
+        {
+            build();
         }
 
         private function config():void
@@ -319,11 +324,11 @@ package nid.ui.controls.vkb
             VirtualKeyBoard.instance.hide();
         }
 
-        public function build(param:* = null):void
+        public function build(keyboardType:String = null):void
         {
-            if (param !== null && param is String)
+            if (keyboardType !== null)
             {
-                currentType = param;
+                currentType = keyboardType;
             }
             var currentLayout:Array = layouts[currentType];
 
@@ -374,8 +379,8 @@ package nid.ui.controls.vkb
                     key.x = x_pox;
                     key.y = y_pox;
 
-                    key.addEventListener(MouseEvent.CLICK, handlEvent);
-                    key.addEventListener(TouchEvent.TOUCH_TAP, handlEvent);
+                    key.addEventListener(MouseEvent.CLICK, handleEvent);
+                    key.addEventListener(TouchEvent.TOUCH_TAP, handleEvent);
 
                     row.addChild(DisplayObject(key));
                     x_pox += (key.width + 10);
@@ -404,7 +409,7 @@ package nid.ui.controls.vkb
 
         }
 
-        private function handlEvent(e:Event):void
+        private function handleEvent(e:Event):void
         {
             var kid:String = e.currentTarget.kid;
             setTimeout(changeLayout, 1, kid);

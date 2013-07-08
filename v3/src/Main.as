@@ -9,6 +9,8 @@ package
 
     import nid.ui.controls.VirtualKeyBoard;
 
+    import spark.core.IEditableText;
+
     /**
      * ...
      * @author Nidin P Vinayakan
@@ -40,7 +42,7 @@ package
 
         private function toggleKeyboard(e:MouseEvent):void
         {
-            VirtualKeyBoard.instance.target = { field: e.currentTarget, fieldName: "Test" };
+            VirtualKeyBoard.instance.show(IEditableText(e.currentTarget), "Test");
         }
     }
 }

@@ -91,22 +91,6 @@ package  nid.ui.controls
             }
         }
 
-        public function set target(obj:Object):void
-        {
-            if (isActive) return;
-
-            targetField = obj.field;
-            referenceText = targetField.text;
-            keyboard.inputArea.fieldName.text = obj.fieldName;
-            keyboard.inputArea.targetField.text = referenceText;
-            keyboard.inputArea.targetField.displayAsPassword = targetField.displayAsPassword;
-            keyboard.inputArea.targetField.restrict = targetField.restrict;
-
-            keyboard.build(obj.keyboardType);
-
-            show();
-        }
-
         public function resize(e:Event = null):void
         {
             if (_stage !== null)
@@ -123,8 +107,17 @@ package  nid.ui.controls
             _stage.addEventListener(Event.RESIZE, resize);
         }
 
-        public function show():void
+        public function show(target:IEditableText, fieldName:String = '', keyboardType:String = null):void
         {
+            targetField = target;
+            referenceText = targetField.text;
+            keyboard.inputArea.fieldName.text = fieldName;
+            keyboard.inputArea.targetField.text = referenceText;
+            keyboard.inputArea.targetField.displayAsPassword = targetField.displayAsPassword;
+            keyboard.inputArea.targetField.restrict = targetField.restrict;
+
+            keyboard.build(keyboardType);
+
             const startY:int = _stage.stageHeight;
             keyboard.y = startY;
             keyboard.alpha = 0;
