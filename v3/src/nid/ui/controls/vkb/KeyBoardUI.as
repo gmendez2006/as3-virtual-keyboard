@@ -358,7 +358,7 @@ package nid.ui.controls.vkb
                     k_h = ko.h;
 
                     //noinspection SwitchStatementWithNoDefaultBranchJS
-                    switch (currentLayout[rows][columns].c)
+                    switch (ko.c)
                     {
                         case '{del}':
                             icon = new delete_icon();
@@ -373,7 +373,7 @@ package nid.ui.controls.vkb
                             icon = new tab_icon();
                             break;
                     }
-                    //trace(currentLayout[rows][columns].c, 'icon:', icon);
+                    //trace(ko.c, 'icon:', icon);
                     key = KeyFactory.getKey(ko.c, k_w, k_h, ko.t, icon);
 
                     key.x = x_pox;
