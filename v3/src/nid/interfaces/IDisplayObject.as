@@ -1,4 +1,4 @@
-package nid.interfaces 
+package nid.interfaces
 {
     import flash.accessibility.AccessibilityProperties;
     import flash.display.DisplayObject;
@@ -13,112 +13,136 @@ package nid.interfaces
     import flash.geom.Vector3D;
 
     /**
-	 * ...
-	 * @author Nidin P Vinayakan
-	 */
-	public interface IDisplayObject extends IEventDispatcher
-	{
-		function get accessibilityProperties () : AccessibilityProperties;
-		function set accessibilityProperties (value:AccessibilityProperties) : void;
-		
-		function get alpha () : Number;
-		function set alpha (value:Number) : void;
+     * ...
+     * @author Nidin P Vinayakan
+     */
+    public interface IDisplayObject extends IEventDispatcher
+    {
+        function get accessibilityProperties():AccessibilityProperties;
 
-		function get blendMode () : String;
-		function set blendMode (value:String) : void;
-		
-		function set blendShader (value:Shader) : void;
+        function set accessibilityProperties(value:AccessibilityProperties):void;
 
-		function get cacheAsBitmap () : Boolean;
-		function set cacheAsBitmap (value:Boolean) : void;
+        function get alpha():Number;
 
-		function get filters () : Array;
-		function set filters (value:Array) : void;
+        function set alpha(value:Number):void;
 
-		function get height () : Number;
-		function set height (value:Number) : void;
+        function get blendMode():String;
 
-		function get loaderInfo () : LoaderInfo;
+        function set blendMode(value:String):void;
 
-		function get mask () : DisplayObject;
-		function set mask (value:DisplayObject) : void;
+        function set blendShader(value:Shader):void;
 
-		function get mouseX () : Number;
+        function get cacheAsBitmap():Boolean;
 
-		function get mouseY () : Number;
+        function set cacheAsBitmap(value:Boolean):void;
 
-		function get name () : String;
-		function set name (value:String) : void;
+        function get filters():Array;
 
-		function get opaqueBackground () : Object;
-		function set opaqueBackground (value:Object) : void;
+        function set filters(value:Array):void;
 
-		function get parent () : DisplayObjectContainer;
+        function get height():Number;
 
-		function get root () : DisplayObject;
+        function set height(value:Number):void;
 
-		function get rotation () : Number;
-		function set rotation (value:Number) : void;
+        function get loaderInfo():LoaderInfo;
 
-		function get rotationX () : Number;
-		function set rotationX (value:Number) : void;
+        function get mask():DisplayObject;
 
-		function get rotationY () : Number;
-		function set rotationY (value:Number) : void;
+        function set mask(value:DisplayObject):void;
 
-		function get rotationZ () : Number;
-		function set rotationZ (value:Number) : void;
+        function get mouseX():Number;
 
-		function get scale9Grid () : Rectangle;
-		function set scale9Grid (innerRectangle:Rectangle) : void;
+        function get mouseY():Number;
 
-		function get scaleX () : Number;
-		function set scaleX (value:Number) : void;
+        function get name():String;
 
-		function get scaleY () : Number;
-		function set scaleY (value:Number) : void;
+        function set name(value:String):void;
 
-		function get scaleZ () : Number;
-		function set scaleZ (value:Number) : void;
+        function get opaqueBackground():Object;
 
-		function get scrollRect () : Rectangle;
-		function set scrollRect (value:Rectangle) : void;
+        function set opaqueBackground(value:Object):void;
 
-		function get stage () : Stage;
+        function get parent():DisplayObjectContainer;
 
-		function get transform () : Transform;
-		function set transform (value:Transform) : void;
+        function get root():DisplayObject;
 
-		function get visible () : Boolean;
-		function set visible (value:Boolean) : void;
+        function get rotation():Number;
 
-		function get width () : Number;
-		function set width (value:Number) : void;
+        function set rotation(value:Number):void;
 
-		function get x () : Number;
-		function set x (value:Number) : void;
+        function get rotationX():Number;
 
-		function get y () : Number;
-		function set y (value:Number) : void;
+        function set rotationX(value:Number):void;
 
-		function get z () : Number;
-		function set z (value:Number) : void;
+        function get rotationY():Number;
 
-		function getBounds (targetCoordinateSpace:DisplayObject) : Rectangle;
+        function set rotationY(value:Number):void;
 
-		function getRect (targetCoordinateSpace:DisplayObject) : Rectangle;
+        function get rotationZ():Number;
 
-		function globalToLocal (point:Point) : Point;
+        function set rotationZ(value:Number):void;
 
-		function globalToLocal3D (point:Point) : Vector3D;
+        function get scale9Grid():Rectangle;
 
-		function hitTestObject (obj:DisplayObject) : Boolean;
+        function set scale9Grid(innerRectangle:Rectangle):void;
 
-		function hitTestPoint (x:Number, y:Number, shapeFlag:Boolean = false) : Boolean;
+        function get scaleX():Number;
 
-		function local3DToGlobal (point3d:Vector3D) : Point;
+        function set scaleX(value:Number):void;
 
-		function localToGlobal (point:Point) : Point;
-	}
-	
+        function get scaleY():Number;
+
+        function set scaleY(value:Number):void;
+
+        function get scaleZ():Number;
+
+        function set scaleZ(value:Number):void;
+
+        function get scrollRect():Rectangle;
+
+        function set scrollRect(value:Rectangle):void;
+
+        function get stage():Stage;
+
+        function get transform():Transform;
+
+        function set transform(value:Transform):void;
+
+        function get visible():Boolean;
+
+        function set visible(value:Boolean):void;
+
+        function get width():Number;
+
+        function set width(value:Number):void;
+
+        function get x():Number;
+
+        function set x(value:Number):void;
+
+        function get y():Number;
+
+        function set y(value:Number):void;
+
+        function get z():Number;
+
+        function set z(value:Number):void;
+
+        function getBounds(targetCoordinateSpace:DisplayObject):Rectangle;
+
+        function getRect(targetCoordinateSpace:DisplayObject):Rectangle;
+
+        function globalToLocal(point:Point):Point;
+
+        function globalToLocal3D(point:Point):Vector3D;
+
+        function hitTestObject(obj:DisplayObject):Boolean;
+
+        function hitTestPoint(x:Number, y:Number, shapeFlag:Boolean = false):Boolean;
+
+        function local3DToGlobal(point3d:Vector3D):Point;
+
+        function localToGlobal(point:Point):Point;
+    }
+
 }
