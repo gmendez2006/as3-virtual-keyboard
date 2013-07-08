@@ -1,9 +1,11 @@
 package nid.ui.controls.vkb 
 {
-	import flash.display.Bitmap;
-	import nid.ui.controls.vkb.keys.DarkKey;
-	import nid.ui.controls.vkb.keys.LightKey;
-	/**
+    import flash.display.Bitmap;
+
+    import nid.ui.controls.vkb.keys.DarkKey;
+    import nid.ui.controls.vkb.keys.LightKey;
+
+    /**
 	 * ...
 	 * @author Nidin P Vinayakan
 	 */

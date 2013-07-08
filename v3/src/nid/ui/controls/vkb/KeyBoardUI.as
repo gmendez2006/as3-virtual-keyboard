@@ -1,19 +1,20 @@
 package nid.ui.controls.vkb 
 {
-	import flash.display.Bitmap;
-	import flash.display.DisplayObject;
-	import flash.display.Shape;
-	import flash.display.Sprite;
-	import flash.display.Stage;
-	import flash.events.Event;
-	import flash.events.MouseEvent;
-	import flash.events.TouchEvent;
-	import flash.utils.Dictionary;
-	import flash.utils.setTimeout;
-	import nid.ui.controls.VirtualKeyBoard;
-	import nid.ui.controls.vkb.keys.DarkKey;
-	import nid.ui.controls.vkb.keys.LightKey;
-	/**
+    import flash.display.Bitmap;
+    import flash.display.DisplayObject;
+    import flash.display.Shape;
+    import flash.display.Sprite;
+    import flash.display.Stage;
+    import flash.events.Event;
+    import flash.events.MouseEvent;
+    import flash.events.TouchEvent;
+    import flash.utils.Dictionary;
+    import flash.utils.setTimeout;
+
+    import nid.ui.controls.VirtualKeyBoard;
+    import nid.ui.controls.vkb.keys.DarkKey;
+
+    /**
 	 * ...
 	 * @author Nidin P Vinayakan
 	 */

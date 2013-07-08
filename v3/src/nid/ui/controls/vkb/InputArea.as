@@ -1,17 +1,17 @@
 package nid.ui.controls.vkb 
 {
-	import flash.display.GradientType;
-	import flash.display.Shape;
-	import flash.display.SpreadMethod;
-	import flash.display.Sprite;
-	import flash.filters.DropShadowFilter;
-	import flash.geom.Matrix;
-	import flash.text.TextField;
-	import flash.text.TextFieldAutoSize;
-	import flash.text.TextFieldType;
-	import flash.text.TextFormat;
-	
-	/**
+    import flash.display.GradientType;
+    import flash.display.Shape;
+    import flash.display.SpreadMethod;
+    import flash.display.Sprite;
+    import flash.filters.DropShadowFilter;
+    import flash.geom.Matrix;
+    import flash.text.TextField;
+    import flash.text.TextFieldAutoSize;
+    import flash.text.TextFieldType;
+    import flash.text.TextFormat;
+
+    /**
 	 * ...
 	 * @author Nidin P Vinayakan
 	 */

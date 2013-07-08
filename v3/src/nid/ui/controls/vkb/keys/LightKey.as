@@ -1,20 +1,22 @@
 package nid.ui.controls.vkb.keys 
 {
-	import com.greensock.TweenMax;
-	import flash.display.Bitmap;
-	import flash.display.GradientType;
-	import flash.display.Shape;
-	import flash.display.SpreadMethod;
-	import flash.display.Sprite;
-	import flash.events.MouseEvent;
-	import flash.filters.DropShadowFilter;
-	import flash.geom.Matrix;
-	import flash.text.TextField;
-	import flash.text.TextFieldAutoSize;
-	import flash.text.TextFormat;
-	import nid.ui.controls.vkb.IKey;
-	
-	/**
+    import com.greensock.TweenMax;
+
+    import flash.display.Bitmap;
+    import flash.display.GradientType;
+    import flash.display.Shape;
+    import flash.display.SpreadMethod;
+    import flash.display.Sprite;
+    import flash.events.MouseEvent;
+    import flash.filters.DropShadowFilter;
+    import flash.geom.Matrix;
+    import flash.text.TextField;
+    import flash.text.TextFieldAutoSize;
+    import flash.text.TextFormat;
+
+    import nid.ui.controls.vkb.IKey;
+
+    /**
 	 * ...
 	 * @author Nidin P Vinayakan
 	 */

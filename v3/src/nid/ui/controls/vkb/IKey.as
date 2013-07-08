@@ -1,9 +1,8 @@
 package nid.ui.controls.vkb 
 {
-	import flash.events.IEventDispatcher;
-	import nid.interfaces.IDisplayObject;
-	
-	/**
+    import nid.interfaces.IDisplayObject;
+
+    /**
 	 * ...
 	 * @author Nidin P Vinayakan
 	 */

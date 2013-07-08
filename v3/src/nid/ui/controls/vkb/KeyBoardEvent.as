@@ -1,8 +1,8 @@
 package nid.ui.controls.vkb 
 {
-	import flash.events.Event;
-	
-	/**
+    import flash.events.Event;
+
+    /**
 	 * ...
 	 * @author Nidin P Vinayakan
 	 */
