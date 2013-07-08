@@ -279,7 +279,6 @@ package nid.ui.controls.vkb
         private var keyholder:Sprite;
         private var bg:Shape = new Shape();
         private var close:DarkKey;
-        public var inputArea:InputArea;
         public var _stage:Stage;
 
         public function KeyBoardUI()
@@ -300,17 +299,10 @@ package nid.ui.controls.vkb
             bg = new Shape();
             addChild(bg);
 
-            inputArea = new InputArea();
-            addChild(inputArea);
-
             close = new DarkKey("back", 35, 40, new close_icon());
-            close.y = 0;
+            close.y = -40;
             close.addEventListener(MouseEvent.CLICK, deactivate);
-            inputArea.addChild(close);
-            //backBtn = new Button2('BACK');
-            //backBtn.addEventListener(MouseEvent.CLICK, deactivate);
-            //backBtn.y = 15;
-            //inputArea.addChild(backBtn);
+            addChild(close);
 
             layouts[KeyBoardTypes.NUMBER_PAD] = number_pad;
             layouts[KeyBoardTypes.NUMERIC] = numeric;
@@ -394,19 +386,16 @@ package nid.ui.controls.vkb
                 keyholder.addChild(row);
             }
 
-            keyholder.y = inputArea.height + 20;
+            keyholder.y = 20;
             addChild(keyholder);
 
             bg.graphics.clear();
             bg.graphics.beginFill(0x000000);
             bg.graphics.drawRect(0, 0, _stage.stageWidth, keyholder.height + 40);
             bg.graphics.endFill();
-            bg.y = inputArea.height;
-
-            inputArea.width = _stage.stageWidth;
+            bg.y = 0;
 
             close.x = _stage.stageWidth - close.width - 5;
-
         }
 
         private function handleEvent(e:Event):void

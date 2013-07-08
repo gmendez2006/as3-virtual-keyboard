@@ -31,9 +31,9 @@ package  nid.ui.controls
         /**
          * Properties
          */
+        private var keyboard:KeyBoardUI;
         private var targetField:IEditableText;
         private var referenceText:String = '';
-        private var keyboard:KeyBoardUI;
         private var isActive:Boolean;
 
         private var _stage:Stage;
@@ -83,15 +83,13 @@ package  nid.ui.controls
                     referenceText += e.char;
             }
 
-            keyboard.inputArea.targetField.text = referenceText;
-
             if (targetField !== null)
             {
                 targetField.text = referenceText;
             }
         }
 
-        public function resize(e:Event = null):void
+        private function resize(e:Event = null):void
         {
             if (_stage !== null)
             {
@@ -107,22 +105,20 @@ package  nid.ui.controls
             _stage.addEventListener(Event.RESIZE, resize);
         }
 
-        public function show(target:IEditableText, fieldName:String = '', keyboardType:String = null):void
+        public function show(target:IEditableText, keyboardType:String = null):void
         {
             targetField = target;
             referenceText = targetField.text;
-            keyboard.inputArea.fieldName.text = fieldName;
-            keyboard.inputArea.targetField.text = referenceText;
-            keyboard.inputArea.targetField.displayAsPassword = targetField.displayAsPassword;
-            keyboard.inputArea.targetField.restrict = targetField.restrict;
 
             keyboard.build(keyboardType);
+
+            if (isActive) return; // skip animation
 
             const startY:int = _stage.stageHeight;
             keyboard.y = startY;
             keyboard.alpha = 0;
             _stage.addChild(keyboard);
-            const endY:Number = startY - keyboard.height;
+            const endY:Number = startY - keyboard.height + 40;
             Tweener.addTween(keyboard, {alpha: 1, y: endY, time: 0.5, transition: "easeOutQuart"});
             isActive = true;
         }

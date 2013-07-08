@@ -42,7 +42,7 @@ package
 
         private function toggleKeyboard(e:MouseEvent):void
         {
-            VirtualKeyBoard.instance.show(IEditableText(e.currentTarget), "Test");
+            VirtualKeyBoard.instance.show(IEditableText(e.currentTarget));
         }
     }
 }
