@@ -1,0 +1,8 @@
+bin-debug/
+bin-release/
+bin/
+target/
+out/
+.idea/
+*.iml
+Thumbs.db
