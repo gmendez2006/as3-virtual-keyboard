@@ -314,20 +314,20 @@ package nid.ui.controls.vkb
             layouts[KeyBoardTypes.ALPHABETS_UPPER] = alphabets_upper;
         }
 
-        private function deactivate(e:MouseEvent):void
+        private static function deactivate(e:MouseEvent):void
         {
             VirtualKeyBoard.getInstance().hide();
         }
 
         public function build(param:* = null):void
         {
-            if (param != null && param is String)
+            if (param !== null && param is String)
             {
                 currentType = param;
             }
             var currentLayout:Array = layouts[currentType];
 
-            if (keyholder != null)
+            if (keyholder !== null)
             {
                 removeChild(keyholder);
                 keyholder = null;
@@ -352,6 +352,7 @@ package nid.ui.controls.vkb
                     k_w = ko.w * ((_stage.stageWidth - 40) / 800);
                     k_h = ko.h;
 
+                    //noinspection SwitchStatementWithNoDefaultBranchJS
                     switch (currentLayout[raws][columns].c)
                     {
                         case '{del}':
@@ -414,34 +415,25 @@ package nid.ui.controls.vkb
             switch (kid)
             {
                 case '?123':
-                {
                     build(KeyBoardTypes.NUMERIC);
-                }
                     break;
 
                 case 'ALT':
-                {
                     build(KeyBoardTypes.NUMERIC_ALT);
-                }
                     break;
 
                 case 'ABC':
-                {
                     build(KeyBoardTypes.ALPHABETS_LOWER);
-                }
                     break;
 
                 case '{shift}':
-                {
-                    build(currentType == KeyBoardTypes.ALPHABETS_LOWER ? KeyBoardTypes.ALPHABETS_UPPER :
+                    build(currentType == KeyBoardTypes.ALPHABETS_LOWER ?
+                          KeyBoardTypes.ALPHABETS_UPPER :
                           KeyBoardTypes.ALPHABETS_LOWER);
-                }
                     break;
 
                 default:
-                {
                     dispatchEvent(new KeyBoardEvent(KeyBoardEvent.UPDATE, kid));
-                }
                     break;
             }
         }

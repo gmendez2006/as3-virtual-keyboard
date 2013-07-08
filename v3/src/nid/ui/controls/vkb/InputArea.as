@@ -69,7 +69,7 @@ package nid.ui.controls.vkb
             fieldBg.graphics.drawRect(0, 0, 80, 100);
             fieldBg.graphics.endFill();
             addChild(fieldBg);
-            fieldBg.x = 10
+            fieldBg.x = 10;
             fieldBg.y = 90;
 
             fieldBg.filters = [new DropShadowFilter(1, 45, 0, 1, 4, 4, 1, 3, true)];

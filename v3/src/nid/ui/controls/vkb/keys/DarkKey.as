@@ -49,7 +49,7 @@ package nid.ui.controls.vkb.keys
             bg.graphics.endFill();
             addChild(bg);
 
-            if (icon == null)
+            if (icon === null)
             {
                 font = new Arial();
 

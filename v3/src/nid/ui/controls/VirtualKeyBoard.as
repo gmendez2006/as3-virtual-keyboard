@@ -21,7 +21,7 @@ package  nid.ui.controls
 
         public static function getInstance():VirtualKeyBoard
         {
-            if (instance == null)
+            if (instance === null)
             {
                 instance = new VirtualKeyBoard();
             }
@@ -58,50 +58,35 @@ package  nid.ui.controls
             switch (e.char)
             {
                 case '{del}':
-                {
                     referenceText = referenceText.substr(0, referenceText.length - 1);
-                }
                     break;
 
                 case 'enter':
-                {
                     referenceText += '\n';
                     //hide();
                     //dispatchEvent(new KeyBoardEvent(KeyBoardEvent.ENTER));
                     return;
-                }
-                    break;
 
                 case 'close':
-                {
                     hide();
                     dispatchEvent(new KeyBoardEvent(KeyBoardEvent.ENTER));
                     return;
-                }
-                    break;
 
                 case '{tab}':
-                {
                     referenceText += '\t';
-                }
                     break;
 
                 case '{space}':
-                {
                     referenceText += ' ';
-                }
                     break;
 
                 default :
-                {
                     referenceText += e.char;
-                }
-                    break;
             }
 
             keyboard.inputArea.targetField.text = referenceText;
 
-            if (targetField != null)
+            if (targetField !== null)
             {
                 targetField.text = referenceText;
             }
@@ -125,7 +110,7 @@ package  nid.ui.controls
 
         public function resize(e:Event = null):void
         {
-            if (_stage != null)
+            if (_stage !== null)
             {
                 keyboard.build();
                 keyboard.y = _stage.stageHeight - keyboard.height;
@@ -160,7 +145,7 @@ package  nid.ui.controls
         private function flush():void
         {
             isActive = false;
-            if (this.parent != null)
+            if (this.parent !== null)
                 this.parent.removeChild(this);
         }
     }
