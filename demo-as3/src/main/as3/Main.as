@@ -15,9 +15,9 @@ package
      * ...
      * @author Nidin P Vinayakan
      */
+    [SWF(width="700", height="600")]
     public class Main extends Sprite
     {
-
         public function Main()
         {
             stage.scaleMode = StageScaleMode.NO_SCALE;
@@ -31,7 +31,7 @@ package
             txt.background = true;
             txt.backgroundColor = 0xCCCCCC;
             txt.defaultTextFormat = new TextFormat("Arial", 25, 0x000000, true, null, null, null, null, "center");
-            txt.text = "PRESS HERE"
+            txt.text = "PRESS HERE";
             addChild(txt);
             txt.x = 175;
             txt.y = 10;
