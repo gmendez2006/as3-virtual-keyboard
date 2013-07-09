@@ -28,9 +28,10 @@ package  nid.ui.controls
             return _instance;
         }
 
-        /**
+        /*
          * Properties
          */
+        public var closeOnEnter:Boolean = true;
         private var keyboard:KeyBoardUI;
         private var targetField:IEditableText;
         private var referenceText:String = '';
@@ -61,14 +62,12 @@ package  nid.ui.controls
                     break;
 
                 case 'enter':
-                    referenceText += '\n';
-                    //hide();
-                    //dispatchEvent(new KeyBoardEvent(KeyBoardEvent.ENTER));
+                    if (closeOnEnter) close();
+                    else referenceText += '\n';
                     return;
 
                 case 'close':
-                    hide();
-                    dispatchEvent(new KeyBoardEvent(KeyBoardEvent.ENTER));
+                    close();
                     return;
 
                 case '{tab}':
@@ -87,6 +86,12 @@ package  nid.ui.controls
             {
                 targetField.text = referenceText;
             }
+        }
+
+        private function close():void
+        {
+            hide();
+            dispatchEvent(new KeyBoardEvent(KeyBoardEvent.ENTER));
         }
 
         private function resize(e:Event = null):void
