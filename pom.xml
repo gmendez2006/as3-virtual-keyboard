@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>vkb</groupId>
+    <artifactId>vkb-parent</artifactId>
+    <version>1.99-SNAPSHOT</version>
+
+    <packaging>pom</packaging>
+
+    <prerequisites>
+        <maven>3.0.3</maven>
+    </prerequisites>
+
+    <properties>
+        <flexmojos.version>4.2-beta</flexmojos.version>
+        <flex.version>4.6.b.23201</flex.version>
+        <flex.swfVersion>13</flex.swfVersion>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <modules>
+        <module>vkb</module>
+        <module>demo-spark</module>
+    </modules>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.sonatype.flexmojos</groupId>
+                    <artifactId>flexmojos-maven-plugin</artifactId>
+                    <version>${flexmojos.version}</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <flexBuilderCompatibility>true</flexBuilderCompatibility>
+                        <debug>${eco.developmentEnvironment}</debug>
+                        <storepass/>
+                        <swfVersion>${flex.swfVersion}</swfVersion>
+                        <themes>
+                            <theme>
+                                ${settings.localRepository}/com/adobe/flex/framework/framework/${flex.version}/configs_zip/themes/Spark/spark.css
+                            </theme>
+                        </themes>
+                    </configuration>
+                    <dependencies>
+                        <!-- Overwrites default compiler version (4.5.1.21328) -->
+                        <dependency>
+                            <groupId>com.adobe.flex</groupId>
+                            <artifactId>compiler</artifactId>
+                            <version>${flex.version}</version>
+                            <type>pom</type>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.adobe.flex.framework</groupId>
+                <artifactId>flex-framework</artifactId>
+                <version>${flex.version}</version>
+                <type>pom</type>
+            </dependency>
+
+            <dependency>
+                <groupId>tweener</groupId>
+                <artifactId>tweener</artifactId>
+                <version>1.33.74</version>
+                <type>swc</type>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <distributionManagement>
+        <repository>
+            <id>archiva.internal</id>
+            <name>Internal Archiva Repository</name>
+            <url>${repo.release.url}</url>
+            <uniqueVersion>false</uniqueVersion>
+        </repository>
+        <snapshotRepository>
+            <id>archiva.snapshots</id>
+            <name>Snapshots Archiva Repository</name>
+            <url>${repo.snapshot.url}</url>
+            <uniqueVersion>false</uniqueVersion>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <scm>
+        <connection>scm:git:ssh://git@github.com:gmendez2006/as3-virtual-keyboard.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com:gmendez2006/as3-virtual-keyboard.git</developerConnection>
+        <url>https://github.com/gmendez2006/as3-virtual-keyboard</url>
+    </scm>
+
+</project>
