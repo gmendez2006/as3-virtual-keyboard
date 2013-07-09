@@ -1,13 +1,10 @@
 package nid.ui.controls.vkb.keys
 {
-    import com.greensock.TweenMax;
-
     import flash.display.Bitmap;
     import flash.display.GradientType;
     import flash.display.Shape;
     import flash.display.SpreadMethod;
     import flash.display.Sprite;
-    import flash.events.MouseEvent;
     import flash.filters.DropShadowFilter;
     import flash.geom.Matrix;
     import flash.text.TextField;
@@ -20,15 +17,13 @@ package nid.ui.controls.vkb.keys
      * ...
      * @author Nidin P Vinayakan
      */
-    public class DarkKey extends Sprite implements IKey
+    public class LightKey extends Sprite implements IKey
     {
-
         private var bg:Shape;
         private var char:TextField;
-        private var font:Arial;
         public var kid:String;
 
-        public function DarkKey(_kid:String, _width:int = 60, _height:int = 60, icon:Bitmap = null)
+        public function LightKey(_kid:String, _width:int = 50, _height:int = 60, icon:Bitmap = null)
         {
             this.buttonMode = true;
             this.mouseChildren = false;
@@ -36,7 +31,7 @@ package nid.ui.controls.vkb.keys
             kid = _kid;
 
             var fillType:String = GradientType.LINEAR;
-            var colors:Array = [0x4B4D4C, 0x333534];
+            var colors:Array = [0x898989, 0x414141];
             var alphas:Array = [1, 1];
             var ratios:Array = [0x00, 0xFF];
             var matr:Matrix = new Matrix();
@@ -51,11 +46,8 @@ package nid.ui.controls.vkb.keys
 
             if (icon === null)
             {
-                font = new Arial();
-
                 char = new TextField();
                 char.selectable = false;
-                char.embedFonts = true;
                 char.defaultTextFormat = new TextFormat("Arial", 30, 0xffffff, true, null, null, null, null, "center");
                 char.text = kid;
                 char.autoSize = TextFieldAutoSize.LEFT;
@@ -69,21 +61,6 @@ package nid.ui.controls.vkb.keys
                 icon.x = _width / 2 - icon.width / 2;
                 icon.y = _height / 2 - icon.height / 2;
                 addChild(icon);
-            }
-
-            addEventListener(MouseEvent.MOUSE_OVER, handleEvents);
-            addEventListener(MouseEvent.MOUSE_OUT, handleEvents);
-        }
-
-        private function handleEvents(e:MouseEvent):void
-        {
-            if (e.type == MouseEvent.MOUSE_OVER)
-            {
-                TweenMax.to(this, 0.1, {colorMatrixFilter: {amount: 1, contrast: 1.1, brightness: 1.3}});
-            }
-            else
-            {
-                TweenMax.to(this, 0.1, { colorMatrixFilter: { }});
             }
         }
     }
