@@ -95,8 +95,8 @@
     </distributionManagement>
 
     <scm>
-        <connection>scm:git:ssh://git@github.com:gmendez2006/as3-virtual-keyboard.git</connection>
-        <developerConnection>scm:git:ssh://git@github.com:gmendez2006/as3-virtual-keyboard.git</developerConnection>
+        <connection>scm:git:git@github.com:gmendez2006/as3-virtual-keyboard.git</connection>
+        <developerConnection>scm:git:git@github.com:gmendez2006/as3-virtual-keyboard.git</developerConnection>
         <url>https://github.com/gmendez2006/as3-virtual-keyboard</url>
     </scm>
 
