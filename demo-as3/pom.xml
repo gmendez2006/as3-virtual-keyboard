@@ -6,12 +6,12 @@
     <parent>
         <groupId>vkb</groupId>
         <artifactId>vkb-parent</artifactId>
-        <version>1.99</version>
+        <version>1.100-SNAPSHOT</version>
     </parent>
 
     <groupId>vkb</groupId>
     <artifactId>demo-as3</artifactId>
-    <version>1.99</version>
+    <version>1.100-SNAPSHOT</version>
 
     <packaging>swf</packaging>
 
@@ -40,7 +40,7 @@
         <dependency>
             <groupId>vkb</groupId>
             <artifactId>vkb</artifactId>
-            <version>1.99</version>
+            <version>1.100-SNAPSHOT</version>
             <type>swc</type>
         </dependency>
     </dependencies>
