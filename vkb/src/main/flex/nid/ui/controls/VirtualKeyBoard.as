@@ -130,6 +130,8 @@ package  nid.ui.controls
 
         public function hide():void
         {
+            if (!isActive) return; // no need to hide an already hidden keyboard
+
             var endY:int = _stage.stageHeight + 50;
             Tweener.addTween(keyboard, {alpha: 0, y: endY, time: 0.5, transition: "easeOutQuart", onComplete: flush });
         }
