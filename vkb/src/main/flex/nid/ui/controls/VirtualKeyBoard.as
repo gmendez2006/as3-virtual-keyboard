@@ -8,8 +8,8 @@ package  nid.ui.controls
 
     import nid.ui.controls.vkb.KeyBoardEvent;
     import nid.ui.controls.vkb.KeyBoardUI;
-
-    import spark.core.IEditableText;
+    import nid.ui.controls.vkb.text.ITextInputWrapper;
+    import nid.ui.controls.vkb.text.TextInputWrapperUtil;
 
     /**
      * ...
@@ -33,8 +33,7 @@ package  nid.ui.controls
          */
         public var closeOnEnter:Boolean = true;
         private var keyboard:KeyBoardUI;
-        private var targetField:IEditableText;
-        private var referenceText:String = '';
+        private var targetField:ITextInputWrapper;
         private var isActive:Boolean;
 
         private var _stage:Stage;
@@ -58,33 +57,36 @@ package  nid.ui.controls
             switch (e.char)
             {
                 case '{del}':
-                    referenceText = referenceText.substr(0, referenceText.length - 1);
+                    if (targetField) targetField.backspace();
                     break;
 
                 case 'enter':
                     if (closeOnEnter) close();
-                    else referenceText += '\n';
-                    return;
+                    else insert('\n');
+                    break;
 
                 case 'close':
                     close();
-                    return;
+                    break;
 
                 case '{tab}':
-                    referenceText += '\t';
+                    insert('\t');
                     break;
 
                 case '{space}':
-                    referenceText += ' ';
+                    insert(' ');
                     break;
 
                 default :
-                    referenceText += e.char;
+                    insert(e.char);
             }
+        }
 
+        private function insert(text:String):void
+        {
             if (targetField !== null)
             {
-                targetField.text = referenceText;
+                targetField.insert(text);
             }
         }
 
@@ -110,10 +112,9 @@ package  nid.ui.controls
             _stage.addEventListener(Event.RESIZE, resize);
         }
 
-        public function show(target:IEditableText, keyboardType:String = null):void
+        public function show(target:*, keyboardType:String = null):void
         {
-            targetField = target;
-            referenceText = targetField.text;
+            targetField = TextInputWrapperUtil.wrap(target);
 
             keyboard.build(keyboardType);
 

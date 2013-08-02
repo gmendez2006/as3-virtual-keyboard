@@ -5,11 +5,10 @@ package
     import flash.display.StageScaleMode;
     import flash.events.MouseEvent;
     import flash.text.TextField;
+    import flash.text.TextFieldType;
     import flash.text.TextFormat;
 
     import nid.ui.controls.VirtualKeyBoard;
-
-    import spark.core.IEditableText;
 
     /**
      * ...
@@ -25,24 +24,25 @@ package
 
             VirtualKeyBoard.instance.init(stage);
 
-            var txt:TextField = new TextField();
-            txt.width = 300;
-            txt.height = 100;
-            txt.background = true;
-            txt.backgroundColor = 0xCCCCCC;
-            txt.defaultTextFormat = new TextFormat("Arial", 25, 0x000000, true, null, null, null, null, "center");
-            txt.text = "PRESS HERE";
-            addChild(txt);
-            txt.x = 175;
-            txt.y = 10;
+            var tf:TextField = new TextField();
+            tf.selectable = true;
+            tf.type = TextFieldType.INPUT;
+            tf.width = 300;
+            tf.height = 100;
+            tf.background = true;
+            tf.backgroundColor = 0xCCCCCC;
+            tf.defaultTextFormat = new TextFormat("Arial", 25, 0x000000, true, null, null, null, null, "center");
+            tf.text = "PRESS HERE";
+            addChild(tf);
+            tf.x = 175;
+            tf.y = 10;
 
-            txt.addEventListener(MouseEvent.CLICK, toggleKeyboard);
-
+            tf.addEventListener(MouseEvent.CLICK, showKeyboard);
         }
 
-        private function toggleKeyboard(e:MouseEvent):void
+        private static function showKeyboard(e:MouseEvent):void
         {
-            VirtualKeyBoard.instance.show(IEditableText(e.currentTarget));
+            VirtualKeyBoard.instance.show(e.currentTarget);
         }
     }
 }
