@@ -8,6 +8,9 @@ package nid.ui.controls.vkb.text
     import flash.text.TextField;
     import flash.utils.getQualifiedClassName;
 
+    import mx.controls.TextArea;
+    import mx.controls.TextInput;
+
     import spark.core.IEditableText;
 
     public class TextInputWrapperUtil
@@ -19,9 +22,18 @@ package nid.ui.controls.vkb.text
 
         public static function wrap(input:*):ITextInputWrapper
         {
+            //noinspection IfStatementWithTooManyBranchesJS
             if (input is IEditableText)
             {
                 return new EditableTextWrapper(input);
+            }
+            else if (input is TextInput)
+            {
+                return new TextInputWrapper(input);
+            }
+            else if (input is TextArea)
+            {
+                return new TextAreaWrapper(input);
             }
             else if (input is TextField)
             {

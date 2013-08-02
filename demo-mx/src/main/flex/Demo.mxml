@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<mx:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
+                xmlns:mx="library://ns.adobe.com/flex/mx"
+                width="700" height="480"
+                creationComplete="onCreationComplete(event)">
+
+    <fx:Script><![CDATA[
+        import mx.events.FlexEvent;
+
+        import nid.ui.controls.VirtualKeyBoard;
+
+        private function onCreationComplete(event:FlexEvent):void
+        {
+            VirtualKeyBoard.instance.init(systemManager.stage);
+        }
+
+        private function ti_onClick(event:MouseEvent):void
+        {
+            VirtualKeyBoard.instance.closeOnEnter = true;
+            VirtualKeyBoard.instance.show(ti);
+        }
+
+        private function ta_onClick(event:MouseEvent):void
+        {
+            VirtualKeyBoard.instance.closeOnEnter = false;
+            VirtualKeyBoard.instance.show(ta);
+        }
+        ]]></fx:Script>
+
+    <mx:TextInput id="ti" y="20" horizontalCenter="0" text="PRESS HERE" click="ti_onClick(event)"/>
+
+    <mx:TextArea id="ta" y="50" horizontalCenter="0" text="PRESS HERE" click="ta_onClick(event)"/>
+
+</mx:Application>

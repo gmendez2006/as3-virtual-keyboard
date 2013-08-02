@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>vkb</groupId>
+        <artifactId>vkb-parent</artifactId>
+        <version>1.100-SNAPSHOT</version>
+    </parent>
+
+    <groupId>vkb</groupId>
+    <artifactId>demo-mx</artifactId>
+    <version>1.100-SNAPSHOT</version>
+
+    <packaging>swf</packaging>
+
+    <prerequisites>
+        <maven>3.0.3</maven>
+    </prerequisites>
+
+    <build>
+        <sourceDirectory>src/main/flex</sourceDirectory>
+
+        <plugins>
+            <plugin>
+                <groupId>org.sonatype.flexmojos</groupId>
+                <artifactId>flexmojos-maven-plugin</artifactId>
+                <configuration>
+                    <flexBuilderCompatibility>true</flexBuilderCompatibility>
+                    <debug>${eco.developmentEnvironment}</debug>
+                    <storepass />
+                    <swfVersion>${flex.swfVersion}</swfVersion>
+                    <themes>
+                        <theme>${settings.localRepository}/com/adobe/flex/framework/framework/${flex.version}/configs_zip/themes/halo/halo.swc</theme>
+                    </themes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.adobe.flex.framework</groupId>
+            <artifactId>flex-framework</artifactId>
+            <type>pom</type>
+        </dependency>
+
+        <dependency>
+            <groupId>vkb</groupId>
+            <artifactId>vkb</artifactId>
+            <version>1.100-SNAPSHOT</version>
+            <type>swc</type>
+        </dependency>
+    </dependencies>
+
+</project>

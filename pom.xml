@@ -24,6 +24,7 @@
         <module>vkb</module>
         <module>demo-as3</module>
         <module>demo-spark</module>
+        <module>demo-mx</module>
     </modules>
 
     <build>
