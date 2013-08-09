@@ -6,12 +6,12 @@
     <parent>
         <groupId>vkb</groupId>
         <artifactId>vkb-parent</artifactId>
-        <version>1.100-SNAPSHOT</version>
+        <version>1.100</version>
     </parent>
 
     <groupId>vkb</groupId>
     <artifactId>vkb</artifactId>
-    <version>1.100-SNAPSHOT</version>
+    <version>1.100</version>
 
     <packaging>swc</packaging>
 
