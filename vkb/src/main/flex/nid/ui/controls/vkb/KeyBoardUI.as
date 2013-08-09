@@ -1,18 +1,17 @@
 package nid.ui.controls.vkb
 {
     import flash.display.Bitmap;
-    import flash.display.DisplayObject;
     import flash.display.Shape;
     import flash.display.Sprite;
     import flash.display.Stage;
     import flash.events.Event;
     import flash.events.MouseEvent;
-    import flash.events.TouchEvent;
     import flash.utils.Dictionary;
     import flash.utils.setTimeout;
 
     import nid.ui.controls.VirtualKeyBoard;
     import nid.ui.controls.vkb.keys.DarkKey;
+    import nid.ui.controls.vkb.keys.Key;
 
     /**
      * ...
@@ -342,7 +341,6 @@ package nid.ui.controls.vkb
 
                 for (var columns:int = 0; columns < currentLayout[rows].length; columns++)
                 {
-                    var key:IKey;
                     var ko:Object = currentLayout[rows][columns];
                     var icon:Bitmap = null;
 
@@ -366,15 +364,12 @@ package nid.ui.controls.vkb
                             break;
                     }
                     //trace(ko.c, 'icon:', icon);
-                    key = KeyFactory.getKey(ko.c, k_w, k_h, ko.t, icon);
-
+                    var key:Key = KeyFactory.getKey(ko.c, k_w, k_h, ko.t, icon);
                     key.x = x_pox;
                     key.y = y_pox;
-
                     key.addEventListener(MouseEvent.CLICK, handleEvent);
-                    key.addEventListener(TouchEvent.TOUCH_TAP, handleEvent);
 
-                    row.addChild(DisplayObject(key));
+                    row.addChild(key);
                     x_pox += (key.width + 10);
                 }
 
