@@ -5,6 +5,8 @@
  */
 package nid.ui.controls.vkb.text
 {
+    import flash.events.Event;
+
     import mx.controls.TextArea;
     import mx.core.IUITextField;
     import mx.core.mx_internal;
@@ -27,7 +29,7 @@ package nid.ui.controls.vkb.text
 
         public function insert(text:String):void
         {
-            input.getTextField().replaceSelectedText(text);
+            replaceSelectedText(text);
             if (text === '\n') input.getTextField().scrollV++;
         }
 
@@ -43,7 +45,15 @@ package nid.ui.controls.vkb.text
 
                 ti.setSelection(start, start - 1); // select 1 character
             }
-            ti.replaceSelectedText('');
+            replaceSelectedText('');
+        }
+
+        private function replaceSelectedText(text:String):void
+        {
+            var textField:IUITextField = input.getTextField();
+            textField.replaceSelectedText(text);
+            // Mimic user input by dispatching 'change' event
+            textField.dispatchEvent(new Event(Event.CHANGE));
         }
     }
 }

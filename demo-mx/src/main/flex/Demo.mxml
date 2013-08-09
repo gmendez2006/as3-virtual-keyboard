@@ -2,6 +2,7 @@
 <mx:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
                 xmlns:mx="library://ns.adobe.com/flex/mx"
                 width="700" height="480"
+                layout="vertical"
                 creationComplete="onCreationComplete(event)">
 
     <fx:Script><![CDATA[
@@ -27,8 +28,14 @@
         }
         ]]></fx:Script>
 
-    <mx:TextInput id="ti" y="20" horizontalCenter="0" text="PRESS HERE" click="ti_onClick(event)"/>
+    <mx:HBox width="100%">
+        <mx:TextInput id="ti" width="40%" text="PRESS HERE" click="ti_onClick(event)"/>
+        <mx:Label width="40%" text="{ti.text}"/>
+    </mx:HBox>
 
-    <mx:TextArea id="ta" y="50" horizontalCenter="0" text="PRESS HERE" click="ta_onClick(event)"/>
+    <mx:HBox width="100%">
+        <mx:TextArea id="ta" width="40%" text="PRESS HERE" click="ta_onClick(event)"/>
+        <mx:TextArea width="40%" text="{ta.text}" editable="false" backgroundAlpha="0"/>
+    </mx:HBox>
 
 </mx:Application>
