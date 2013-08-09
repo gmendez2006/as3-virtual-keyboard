@@ -2,13 +2,11 @@ package nid.ui.controls.vkb.keys
 {
     import flash.display.Bitmap;
 
-    import nid.ui.controls.vkb.IKey;
-
     /**
      * ...
      * @author Nidin P Vinayakan
      */
-    public class DarkKey extends Key implements IKey
+    public class DarkKey extends Key
     {
         public function DarkKey(kid:String, width:int = 60, height:int = 60, icon:Bitmap = null)
         {

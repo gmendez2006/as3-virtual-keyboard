@@ -3,6 +3,7 @@ package nid.ui.controls.vkb
     import flash.display.Bitmap;
 
     import nid.ui.controls.vkb.keys.DarkKey;
+    import nid.ui.controls.vkb.keys.Key;
     import nid.ui.controls.vkb.keys.LightKey;
 
     /**
@@ -17,9 +18,9 @@ package nid.ui.controls.vkb
 
         }
 
-        static public function getKey(c:String, w:int, h:int, t:String = "L", icon:Bitmap = null):IKey
+        static public function getKey(c:String, w:int, h:int, t:String = "L", icon:Bitmap = null):Key
         {
-            var key:IKey;
+            var key:Key;
 
             if (t == "D")
             {

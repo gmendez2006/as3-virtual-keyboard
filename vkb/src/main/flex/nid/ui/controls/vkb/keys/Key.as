@@ -16,9 +16,7 @@ package nid.ui.controls.vkb.keys
     import flash.text.TextFieldAutoSize;
     import flash.text.TextFormat;
 
-    import nid.ui.controls.vkb.IKey;
-
-    public class Key extends Sprite implements IKey
+    public class Key extends Sprite
     {
         public var kid:String;
 
