@@ -23,7 +23,11 @@ package nid.ui.controls.vkb.text
         public static function wrap(input:*):ITextInputWrapper
         {
             //noinspection IfStatementWithTooManyBranchesJS
-            if (input is IEditableText)
+            if (input is ITextInputWrapper)
+            {
+                return input;
+            }
+            else if (input is IEditableText)
             {
                 return new EditableTextWrapper(input);
             }

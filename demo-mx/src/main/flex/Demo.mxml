@@ -9,6 +9,7 @@
         import mx.events.FlexEvent;
 
         import nid.ui.controls.VirtualKeyBoard;
+        import nid.ui.controls.vkb.text.ITextInputWrapper;
 
         private function onCreationComplete(event:FlexEvent):void
         {
@@ -26,6 +27,13 @@
             VirtualKeyBoard.instance.closeOnEnter = false;
             VirtualKeyBoard.instance.show(ta);
         }
+
+        private function ta1_onClick(event:MouseEvent):void
+        {
+            var wrapper:ITextInputWrapper = new TextAreaWrapperWithUniqueInput(ta1);
+            VirtualKeyBoard.instance.closeOnEnter = false;
+            VirtualKeyBoard.instance.show(wrapper);
+        }
         ]]></fx:Script>
 
     <mx:Spacer height="110"/>
@@ -38,6 +46,11 @@
     <mx:HBox width="100%">
         <mx:TextArea id="ta" width="40%" text="PRESS HERE" click="ta_onClick(event)"/>
         <mx:TextArea width="40%" text="{ta.text}" editable="false" backgroundAlpha="0"/>
+    </mx:HBox>
+
+    <mx:HBox width="100%">
+        <mx:TextArea id="ta1" width="40%" text="UNIQ_E" click="ta1_onClick(event)"/>
+        <mx:TextArea width="40%" text="{ta1.text}" editable="false" backgroundAlpha="0"/>
     </mx:HBox>
 
 </mx:Application>
