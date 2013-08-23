@@ -3,7 +3,7 @@
  * @since 8/23/13 4:25 PM
  * @author Original author: Gustavo
  */
-package
+package lib
 {
     import mx.controls.TextArea;
 

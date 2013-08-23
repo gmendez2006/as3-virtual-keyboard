@@ -6,6 +6,8 @@
                 creationComplete="onCreationComplete(event)">
 
     <fx:Script><![CDATA[
+        import lib.TextAreaWrapperWithUniqueInput;
+
         import mx.events.FlexEvent;
 
         import nid.ui.controls.VirtualKeyBoard;
