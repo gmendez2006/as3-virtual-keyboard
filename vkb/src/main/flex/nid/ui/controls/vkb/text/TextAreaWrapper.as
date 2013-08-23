@@ -48,6 +48,12 @@ package nid.ui.controls.vkb.text
             replaceSelectedText('');
         }
 
+        public function get globalBottom():Number
+        {
+            return DisplayObjectUtil.getGlobalBottom(input);
+        }
+
+
         private function replaceSelectedText(text:String):void
         {
             var textField:IUITextField = input.getTextField();

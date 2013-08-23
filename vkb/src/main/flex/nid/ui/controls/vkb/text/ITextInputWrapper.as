@@ -23,5 +23,11 @@ package nid.ui.controls.vkb.text
          *  or all selected text (if any).
          */
         function backspace():void;
+
+        /**
+         *  The bottom (y-value) of this component in global
+         *  (Stage) coordinates.
+         */
+        function get globalBottom():Number;
     }
 }

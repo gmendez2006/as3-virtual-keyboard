@@ -5,6 +5,8 @@
  */
 package nid.ui.controls.vkb.text
 {
+    import flash.display.DisplayObject;
+
     import spark.core.IEditableText;
 
     public class EditableTextWrapper implements ITextInputWrapper
@@ -38,6 +40,11 @@ package nid.ui.controls.vkb.text
                 input.selectRange(start, start - 1);    // select 1 character
             }
             input.insertText('');
+        }
+
+        public function get globalBottom():Number
+        {
+            return DisplayObjectUtil.getGlobalBottom(input as DisplayObject);
         }
     }
 }

@@ -28,6 +28,11 @@ package nid.ui.controls.vkb.text
             input.replaceSelectedText(text);
         }
 
+        public function get globalBottom():Number
+        {
+            return DisplayObjectUtil.getGlobalBottom(input);
+        }
+
         public function backspace():void
         {
             const start:int = input.selectionBeginIndex;
