@@ -2,9 +2,11 @@ package  nid.ui.controls
 {
     import caurina.transitions.Tweener;
 
-    import flash.display.Sprite;
+    import flash.display.DisplayObject;
     import flash.display.Stage;
     import flash.events.Event;
+    import flash.events.EventDispatcher;
+    import flash.events.IEventDispatcher;
 
     import nid.ui.controls.vkb.KeyBoardEvent;
     import nid.ui.controls.vkb.KeyBoardUI;
@@ -15,49 +17,137 @@ package  nid.ui.controls
      * ...
      * @author Nidin P Vinayakan
      */
-    public class VirtualKeyBoard extends Sprite
+    public class VirtualKeyBoard extends EventDispatcher
     {
+        private static const TRANSITION:String = "easeOutQuart";
+        private static const TRANSITION_TIME:Number = 0.5;
+
         private static var _instance:VirtualKeyBoard;
 
         public static function get instance():VirtualKeyBoard
         {
-            if (_instance === null)
-            {
-                _instance = new VirtualKeyBoard();
-            }
-            return _instance;
+            //noinspection AssignmentResultUsedJS
+            return _instance === null ? _instance = new VirtualKeyBoard() : _instance;
         }
 
         /*
          * Properties
          */
         public var closeOnEnter:Boolean = true;
-        private var keyboard:KeyBoardUI;
-        private var targetField:ITextInputWrapper;
-        private var isActive:Boolean;
+
+        private var _keyboard:KeyBoardUI;
+        private var _target:ITextInputWrapper;
+        private var _isActive:Boolean;
 
         private var _stage:Stage;
+        private var _topLevelParent:DisplayObject;
+        private var _lastOffset:Number;
 
-        public function VirtualKeyBoard()
+        public function VirtualKeyBoard(target:IEventDispatcher = null)
         {
-            configUI();
+            super(target);
+
+            _keyboard = new KeyBoardUI();
+            _keyboard.addEventListener(KeyBoardEvent.UPDATE, keyboard_onUpdate);
         }
 
-        private function configUI():void
+        public function init(stage:Stage, topLevelParent:DisplayObject = null):void
         {
-            keyboard = new KeyBoardUI();
-            addChild(keyboard);
+            _stage = stage;
+            _topLevelParent = topLevelParent;
 
-            keyboard.addEventListener(KeyBoardEvent.UPDATE, updateTarget);
+            _keyboard._stage = _stage;
+            _stage.addEventListener(Event.RESIZE, stage_onResize);
         }
 
-        private function updateTarget(e:KeyBoardEvent):void
+        public function show(target:*, keyboardType:String = null):void
+        {
+            _target = TextInputWrapperUtil.wrap(target);
+
+            _keyboard.build(keyboardType);
+
+            if (_isActive) return; // skip animation
+
+            const startY:int = _stage.stageHeight;
+            const endY:Number = startY - _keyboard.keyHolderHeight;
+            _keyboard.y = startY;
+            _keyboard.alpha = 0;
+            _stage.addChild(_keyboard);
+
+            Tweener.addTween(_keyboard, {alpha: 1, y: endY, time: TRANSITION_TIME, transition: TRANSITION});
+            if (_topLevelParent)
+            {
+                var targetBottom:Number = _target.globalBottom;
+                if (targetBottom > endY)
+                {
+                    _lastOffset = endY - targetBottom; // negative offset
+                    offsetTopLevelParent(_lastOffset);
+                }
+            }
+            _isActive = true;
+        }
+
+        private function offsetTopLevelParent(offset:Number):void
+        {
+            if (_topLevelParent && !isNaN(offset))
+            {
+                Tweener.addTween(_topLevelParent, {
+                    y: _topLevelParent.y + offset,
+                    time: TRANSITION_TIME,
+                    transition: TRANSITION
+                });
+            }
+        }
+
+        public function hide():void
+        {
+            if (!_isActive) return; // no need to hide an already hidden _keyboard
+
+            Tweener.addTween(_keyboard, {
+                alpha: 0,
+                y: _stage.stageHeight,
+                time: TRANSITION_TIME,
+                transition: TRANSITION,
+                onComplete: flush
+            });
+            offsetTopLevelParent(-_lastOffset); // revert original offset, if any
+            _lastOffset = NaN;
+        }
+
+        private function flush():void
+        {
+            _isActive = false;
+            _target = null;
+            _stage.removeChild(_keyboard);
+        }
+
+        /* *** Utility functions *** */
+
+        private function backspace():void
+        {
+            if (_target) _target.backspace();
+        }
+
+        private function insert(text:String):void
+        {
+            if (_target !== null) _target.insert(text);
+        }
+
+        private function close():void
+        {
+            hide();
+            dispatchEvent(new KeyBoardEvent(KeyBoardEvent.ENTER));
+        }
+
+        /* *** Event Handlers *** */
+
+        private function keyboard_onUpdate(e:KeyBoardEvent):void
         {
             //trace(e.char);
             switch (e.char)
             {
                 case '{del}':
-                    if (targetField) targetField.backspace();
+                    backspace();
                     break;
 
                 case 'enter':
@@ -82,66 +172,12 @@ package  nid.ui.controls
             }
         }
 
-        private function insert(text:String):void
+        private function stage_onResize(e:Event = null):void
         {
-            if (targetField !== null)
-            {
-                targetField.insert(text);
-            }
+            _keyboard.build();
+            _keyboard.y = _stage.stageHeight - _keyboard.keyHolderHeight;
         }
 
-        private function close():void
-        {
-            hide();
-            dispatchEvent(new KeyBoardEvent(KeyBoardEvent.ENTER));
-        }
-
-        private function resize(e:Event = null):void
-        {
-            if (_stage !== null)
-            {
-                keyboard.build();
-                keyboard.y = _stage.stageHeight - keyboard.height;
-            }
-        }
-
-        public function init(target:Stage):void
-        {
-            _stage = target;
-            keyboard._stage = _stage;
-            _stage.addEventListener(Event.RESIZE, resize);
-        }
-
-        public function show(target:*, keyboardType:String = null):void
-        {
-            targetField = TextInputWrapperUtil.wrap(target);
-
-            keyboard.build(keyboardType);
-
-            if (isActive) return; // skip animation
-
-            const startY:int = _stage.stageHeight;
-            keyboard.y = startY;
-            keyboard.alpha = 0;
-            _stage.addChild(keyboard);
-            const endY:Number = startY - keyboard.height + 40;
-            Tweener.addTween(keyboard, {alpha: 1, y: endY, time: 0.5, transition: "easeOutQuart"});
-            isActive = true;
-        }
-
-        public function hide():void
-        {
-            if (!isActive) return; // no need to hide an already hidden keyboard
-
-            var endY:int = _stage.stageHeight + 50;
-            Tweener.addTween(keyboard, {alpha: 0, y: endY, time: 0.5, transition: "easeOutQuart", onComplete: flush });
-        }
-
-        private function flush():void
-        {
-            isActive = false;
-            if (parent !== null) parent.removeChild(this);
-        }
     }
 
 }

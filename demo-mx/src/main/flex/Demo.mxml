@@ -12,7 +12,7 @@
 
         private function onCreationComplete(event:FlexEvent):void
         {
-            VirtualKeyBoard.instance.init(systemManager.stage);
+            VirtualKeyBoard.instance.init(systemManager.stage, this);
         }
 
         private function ti_onClick(event:MouseEvent):void
@@ -27,6 +27,8 @@
             VirtualKeyBoard.instance.show(ta);
         }
         ]]></fx:Script>
+
+    <mx:Spacer height="110"/>
 
     <mx:HBox width="100%">
         <mx:TextInput id="ti" width="40%" text="PRESS HERE" click="ti_onClick(event)"/>
