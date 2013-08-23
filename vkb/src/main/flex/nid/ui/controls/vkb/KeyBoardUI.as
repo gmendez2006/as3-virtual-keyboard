@@ -1,7 +1,6 @@
 package nid.ui.controls.vkb
 {
     import flash.display.Bitmap;
-    import flash.display.Shape;
     import flash.display.Sprite;
     import flash.display.Stage;
     import flash.events.Event;
@@ -273,41 +272,38 @@ package nid.ui.controls.vkb
             ]
         ];
 
-        private var layouts:Dictionary = new Dictionary();
-        private var currentType:String = KeyBoardTypes.ALPHABETS_LOWER;
-        private var keyholder:Sprite;
-        private var bg:Shape = new Shape();
+        private var layouts:Dictionary;
+        private var activeLayout:Array;
+        private var keyHolder:Sprite;
         private var close:DarkKey;
         public var _stage:Stage;
 
-        public function KeyBoardUI()
+        public function KeyBoardUI(buildOnAddedToStage:Boolean = false)
         {
             config();
-            addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
-        }
-
-        private function onAddedToStage(event:Event):void
-        {
-            build();
+            if (buildOnAddedToStage) addEventListener(Event.ADDED_TO_STAGE, onAddedToStage);
         }
 
         private function config():void
         {
-            currentType = KeyBoardTypes.ALPHABETS_LOWER;
-
-            bg = new Shape();
-            addChild(bg);
-
-            close = new DarkKey("back", 35, 40, new close_icon());
+            close = new DarkKey("back", 40, 40, new close_icon());
             close.y = -40;
             close.addEventListener(MouseEvent.CLICK, deactivate);
             addChild(close);
 
+            layouts = new Dictionary();
             layouts[KeyBoardTypes.NUMBER_PAD] = number_pad;
             layouts[KeyBoardTypes.NUMERIC] = numeric;
             layouts[KeyBoardTypes.NUMERIC_ALT] = numeric_alt;
             layouts[KeyBoardTypes.ALPHABETS_LOWER] = alphabets_lower;
             layouts[KeyBoardTypes.ALPHABETS_UPPER] = alphabets_upper;
+
+            activeLayout = alphabets_lower;
+        }
+
+        private function onAddedToStage(event:Event):void
+        {
+            build();
         }
 
         private static function deactivate(e:MouseEvent):void
@@ -317,80 +313,70 @@ package nid.ui.controls.vkb
 
         public function build(keyboardType:String = null):void
         {
-            if (keyboardType !== null)
+            if (keyboardType !== null) activeLayout = layouts[keyboardType];
+            if (keyHolder !== null) removeChild(keyHolder);
+
+            keyHolder = new Sprite();
+
+            const stageWidth:int = _stage.stageWidth;
+            const effectiveWidth:int = stageWidth - 40; // stage width minus padding
+
+            var startY:int = 20;
+            for (var row:uint = 0, rows:uint = activeLayout.length; row < rows; row++)
             {
-                currentType = keyboardType;
-            }
-            var currentLayout:Array = layouts[currentType];
+                var r:Sprite = new Sprite();
+                r.y = startY;
 
-            if (keyholder !== null)
-            {
-                removeChild(keyholder);
-                keyholder = null;
-            }
-            keyholder = new Sprite();
-
-            var k_w:int = ((_stage.stageWidth - 40) / 10) - 10;
-            var k_h:int = 60;
-            var x_pox:int = 0;
-            var y_pox:int = 0;
-
-            for (var rows:uint = 0, n:uint = currentLayout.length; rows < n; rows++)
-            {
-                var row:Sprite = new Sprite();
-
-                for (var columns:int = 0; columns < currentLayout[rows].length; columns++)
+                var startX:int = 0;
+                for (var col:uint = 0, cols:uint = activeLayout[row].length; col < cols; col++)
                 {
-                    var ko:Object = currentLayout[rows][columns];
-                    var icon:Bitmap = null;
+                    var ko:Object = activeLayout[row][col];
+                    var k_w:int = ko.w * (effectiveWidth / 800);
+                    var icon:Bitmap = getIcon(ko.c);
 
-                    k_w = ko.w * ((_stage.stageWidth - 40) / 800);
-                    k_h = ko.h;
-
-                    //noinspection SwitchStatementWithNoDefaultBranchJS
-                    switch (ko.c)
-                    {
-                        case '{del}':
-                            icon = new delete_icon();
-                            break;
-                        case '{shift}':
-                            icon = new shift_icon();
-                            break;
-                        case '{space}':
-                            icon = new space_icon();
-                            break;
-                        case '{tab}':
-                            icon = new tab_icon();
-                            break;
-                    }
-                    //trace(ko.c, 'icon:', icon);
-                    var key:Key = KeyFactory.getKey(ko.c, k_w, k_h, ko.t, icon);
-                    key.x = x_pox;
-                    key.y = y_pox;
+                    var key:Key = KeyFactory.getKey(ko.c, k_w, ko.h, ko.t, icon);
+                    key.x = startX;
                     key.addEventListener(MouseEvent.CLICK, handleEvent);
+                    r.addChild(key);
 
-                    row.addChild(key);
-                    x_pox += (key.width + 10);
+                    startX += (key.width + 10);
                 }
+                r.x = (stageWidth - r.width) * 0.5; // center
+                keyHolder.addChild(r);
 
-                x_pox = 0;
-                y_pox += (k_h + 10);
-
-                row.x = _stage.stageWidth / 2 - row.width / 2;
-
-                keyholder.addChild(row);
+                startY += (r.height + 10);
             }
 
-            keyholder.y = 20;
-            addChild(keyholder);
+            addChild(keyHolder);
 
-            bg.graphics.clear();
-            bg.graphics.beginFill(0x000000);
-            bg.graphics.drawRect(0, 0, _stage.stageWidth, keyholder.height + 40);
-            bg.graphics.endFill();
-            bg.y = 0;
+            keyHolder.graphics.clear();
+            keyHolder.graphics.beginFill(0x000000);
+            keyHolder.graphics.drawRect(0, 0, stageWidth, keyHolder.height + 40);
+            keyHolder.graphics.endFill();
 
-            close.x = _stage.stageWidth - close.width - 5;
+            close.x = stageWidth - close.width - 10;
+        }
+
+        public function get keyHolderHeight():Number
+        {
+            return keyHolder === null ? 0 : keyHolder.height;
+        }
+
+        private function getIcon(c:String):Bitmap
+        {
+            switch (c)
+            {
+                case '{del}':
+                    return new delete_icon();
+                case '{shift}':
+                    return new shift_icon();
+                case '{space}':
+                    return new space_icon();
+                case '{tab}':
+                    return new tab_icon();
+                default:
+                    return null;
+            }
         }
 
         private function handleEvent(e:Event):void
@@ -416,7 +402,7 @@ package nid.ui.controls.vkb
                     break;
 
                 case '{shift}':
-                    build(currentType == KeyBoardTypes.ALPHABETS_LOWER ?
+                    build(activeLayout === alphabets_lower ?
                           KeyBoardTypes.ALPHABETS_UPPER :
                           KeyBoardTypes.ALPHABETS_LOWER);
                     break;
