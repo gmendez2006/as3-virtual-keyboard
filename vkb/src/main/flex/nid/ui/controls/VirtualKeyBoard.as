@@ -63,40 +63,9 @@ package  nid.ui.controls
         public function show(target:*, keyboardType:String = null):void
         {
             _target = TextInputWrapperUtil.wrap(target);
-
             _keyboard.build(keyboardType);
-
-            if (_isActive) return; // skip animation
-
-            const startY:int = _stage.stageHeight;
-            const endY:Number = startY - _keyboard.keyHolderHeight;
-            _keyboard.y = startY;
-            _keyboard.alpha = 0;
-            _stage.addChild(_keyboard);
-
-            Tweener.addTween(_keyboard, {alpha: 1, y: endY, time: TRANSITION_TIME, transition: TRANSITION});
-            if (_topLevelParent)
-            {
-                var targetBottom:Number = _target.globalBottom;
-                if (targetBottom > endY)
-                {
-                    _lastOffset = endY - targetBottom; // negative offset
-                    offsetTopLevelParent(_lastOffset);
-                }
-            }
-            _isActive = true;
-        }
-
-        private function offsetTopLevelParent(offset:Number):void
-        {
-            if (_topLevelParent && !isNaN(offset))
-            {
-                Tweener.addTween(_topLevelParent, {
-                    y: _topLevelParent.y + offset,
-                    time: TRANSITION_TIME,
-                    transition: TRANSITION
-                });
-            }
+            positionKeyboard();
+            positionTopLevelParent();
         }
 
         public function hide():void
@@ -108,20 +77,72 @@ package  nid.ui.controls
                 y: _stage.stageHeight,
                 time: TRANSITION_TIME,
                 transition: TRANSITION,
-                onComplete: flush
+                onComplete: keyboard_onHideComplete
             });
-            offsetTopLevelParent(-_lastOffset); // revert original offset, if any
+            offsetY(_topLevelParent, -_lastOffset, true); // revert original offset, if any
             _lastOffset = NaN;
         }
 
-        private function flush():void
+        /* *** Utility functions *** */
+
+        private function get keyboardTop():Number
         {
-            _isActive = false;
-            _target = null;
-            _stage.removeChild(_keyboard);
+            // Note: we don't take the close button into account when detecting overlaps
+            return _stage.stageHeight - _keyboard.keyHolderHeight;
         }
 
-        /* *** Utility functions *** */
+        private function positionKeyboard():void
+        {
+            if (_isActive) // skip animation
+            {
+                _keyboard.y = keyboardTop;
+            }
+            else           // slide keyboard up
+            {
+                _keyboard.y = _stage.stageHeight;
+                _keyboard.alpha = 0;
+                _stage.addChild(_keyboard);
+                Tweener.addTween(_keyboard, {
+                    alpha: 1,
+                    y: keyboardTop,
+                    time: TRANSITION_TIME,
+                    transition: TRANSITION,
+                    onComplete: keyboard_onShowComplete});
+            }
+        }
+
+        private function positionTopLevelParent(allowDownAdjustments:Boolean = false):void
+        {
+            if (_topLevelParent === null) return;
+
+            var targetBottom:Number = _target.globalBottom + 4; // Adding some padding
+            var newOffset:Number = keyboardTop - targetBottom;
+            var previousOffset:Number = isNaN(_lastOffset) ? 0 : _lastOffset;
+            var totalOffset:Number = previousOffset + newOffset;
+            if (isNaN(_lastOffset) || !allowDownAdjustments ? newOffset < 0 : totalOffset <= 0) // we mostly move things up (negative offset) but
+            {                                                                                   // allow for positive offsets that don't go beyond
+                _lastOffset = totalOffset === 0 ? NaN : totalOffset;                            // original topLevelParent position (offset = 0)
+                offsetY(_topLevelParent, newOffset, !_isActive);
+            }
+        }
+
+        private static function offsetY(displayObject:DisplayObject, offset:Number, animate:Boolean):void
+        {
+            if (displayObject === null || isNaN(offset)) return;
+
+            if (animate)
+            {
+                Tweener.addTween(displayObject, {
+                    y: displayObject.y + offset,
+                    time: TRANSITION_TIME,
+                    transition: TRANSITION
+                });
+            }
+            else
+            {
+                displayObject.y += offset;
+            }
+        }
 
         private function backspace():void
         {
@@ -174,10 +195,24 @@ package  nid.ui.controls
 
         private function stage_onResize(e:Event = null):void
         {
+            if (!_isActive) return;
             _keyboard.build();
-            _keyboard.y = _stage.stageHeight - _keyboard.keyHolderHeight;
+            positionKeyboard();
+            positionTopLevelParent(true);
         }
 
-    }
+        /* *** Callback functions *** */
 
+        private function keyboard_onShowComplete():void
+        {
+            _isActive = true;
+        }
+
+        private function keyboard_onHideComplete():void
+        {
+            _isActive = false;
+            _target = null;
+            _stage.removeChild(_keyboard);
+        }
+    }
 }
