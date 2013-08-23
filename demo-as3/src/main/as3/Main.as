@@ -22,7 +22,7 @@ package
             stage.scaleMode = StageScaleMode.NO_SCALE;
             stage.align = StageAlign.TOP_LEFT;
 
-            VirtualKeyBoard.instance.init(stage);
+            VirtualKeyBoard.instance.init(stage, this);
 
             var tf:TextField = new TextField();
             tf.selectable = true;
@@ -35,7 +35,7 @@ package
             tf.text = "PRESS HERE";
             addChild(tf);
             tf.x = 175;
-            tf.y = 10;
+            tf.y = 200;
 
             tf.addEventListener(MouseEvent.CLICK, showKeyboard);
         }

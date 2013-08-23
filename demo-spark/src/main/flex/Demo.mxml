@@ -11,7 +11,7 @@
 
         private function onCreationComplete(event:FlexEvent):void
         {
-            VirtualKeyBoard.instance.init(systemManager.stage);
+            VirtualKeyBoard.instance.init(systemManager.stage, this);
         }
 
         private function ti_onClick(event:MouseEvent):void
@@ -20,5 +20,5 @@
         }
         ]]></fx:Script>
 
-    <s:TextInput id="ti" y="20" horizontalCenter="0" click="ti_onClick(event)"/>
+    <s:TextInput id="ti" y="200" horizontalCenter="0" click="ti_onClick(event)"/>
 </s:Application>
