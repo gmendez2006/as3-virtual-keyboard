@@ -20,7 +20,7 @@ package  nid.ui.controls
     public class VirtualKeyBoard extends EventDispatcher
     {
         private static const TRANSITION:String = "easeOutQuart";
-        private static const TRANSITION_TIME:Number = 0.5;
+        private static const TRANSITION_TIME:Number = 0.4;
 
         private static var _instance:VirtualKeyBoard;
 
