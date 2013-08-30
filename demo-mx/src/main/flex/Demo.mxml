@@ -1,58 +1,36 @@
 <?xml version="1.0"?>
-<mx:Application xmlns:fx="http://ns.adobe.com/mxml/2009"
-                xmlns:mx="library://ns.adobe.com/flex/mx"
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+                xmlns:lib="lib.*"
                 width="700" height="480"
                 layout="vertical"
                 creationComplete="onCreationComplete(event)">
 
-    <fx:Script><![CDATA[
-        import lib.TextAreaWrapperWithUniqueInput;
+    <mx:Script><![CDATA[
+        import lib.InputContainerPopup;
 
         import mx.events.FlexEvent;
+        import mx.managers.PopUpManager;
 
         import nid.ui.controls.VirtualKeyBoard;
-        import nid.ui.controls.vkb.text.ITextInputWrapper;
 
         private function onCreationComplete(event:FlexEvent):void
         {
             VirtualKeyBoard.instance.init(systemManager.stage, this);
         }
 
-        private function ti_onClick(event:MouseEvent):void
+        private function showPopup(modal:Boolean):void
         {
-            VirtualKeyBoard.instance.closeOnEnter = true;
-            VirtualKeyBoard.instance.show(ti);
+            PopUpManager.createPopUp(this, InputContainerPopup, modal);
         }
+        ]]></mx:Script>
 
-        private function ta_onClick(event:MouseEvent):void
-        {
-            VirtualKeyBoard.instance.closeOnEnter = false;
-            VirtualKeyBoard.instance.show(ta);
-        }
-
-        private function ta1_onClick(event:MouseEvent):void
-        {
-            var wrapper:ITextInputWrapper = new TextAreaWrapperWithUniqueInput(ta1);
-            VirtualKeyBoard.instance.closeOnEnter = false;
-            VirtualKeyBoard.instance.show(wrapper);
-        }
-        ]]></fx:Script>
-
-    <mx:Spacer height="110"/>
-
-    <mx:HBox width="100%">
-        <mx:TextInput id="ti" width="40%" text="PRESS HERE" click="ti_onClick(event)"/>
-        <mx:Label width="40%" text="{ti.text}"/>
+    <mx:HBox width="100%" horizontalAlign="center">
+        <mx:Button label="popup (modal)" click="showPopup(true)"/>
+        <mx:Button label="popup (non-modal)" click="showPopup(false)"/>
     </mx:HBox>
 
-    <mx:HBox width="100%">
-        <mx:TextArea id="ta" width="40%" text="PRESS HERE" click="ta_onClick(event)"/>
-        <mx:TextArea width="40%" text="{ta.text}" editable="false" backgroundAlpha="0"/>
-    </mx:HBox>
+    <mx:Spacer height="70"/>
 
-    <mx:HBox width="100%">
-        <mx:TextArea id="ta1" width="40%" text="UNIQ_E" click="ta1_onClick(event)"/>
-        <mx:TextArea width="40%" text="{ta1.text}" editable="false" backgroundAlpha="0"/>
-    </mx:HBox>
+    <lib:InputContainer width="100%"/>
 
 </mx:Application>
