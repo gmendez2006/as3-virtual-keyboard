@@ -15,6 +15,7 @@
 
         private function onCreationComplete(event:FlexEvent):void
         {
+            x = 20; y = 20;
             VirtualKeyBoard.instance.init(systemManager.stage, this);
         }
 

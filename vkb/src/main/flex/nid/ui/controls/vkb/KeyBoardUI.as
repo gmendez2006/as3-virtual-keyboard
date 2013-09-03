@@ -1,8 +1,8 @@
 package nid.ui.controls.vkb
 {
     import flash.display.Bitmap;
+    import flash.display.DisplayObject;
     import flash.display.Sprite;
-    import flash.display.Stage;
     import flash.events.Event;
     import flash.events.MouseEvent;
     import flash.utils.Dictionary;
@@ -272,11 +272,12 @@ package nid.ui.controls.vkb
             ]
         ];
 
+        public var app:DisplayObject;
+
         private var layouts:Dictionary;
         private var activeLayout:Array;
         private var keyHolder:Sprite;
         private var close:DarkKey;
-        public var _stage:Stage;
 
         public function KeyBoardUI(buildOnAddedToStage:Boolean = false)
         {
@@ -318,8 +319,8 @@ package nid.ui.controls.vkb
 
             keyHolder = new Sprite();
 
-            const stageWidth:int = _stage.stageWidth;
-            const effectiveWidth:int = stageWidth - 40; // stage width minus padding
+            const appWidth:int = app.width;
+            const effectiveWidth:int = appWidth - 40; // app width minus padding
 
             var startY:int = 20;
             for (var row:uint = 0, rows:uint = activeLayout.length; row < rows; row++)
@@ -341,7 +342,7 @@ package nid.ui.controls.vkb
 
                     startX += (key.width + 10);
                 }
-                r.x = (stageWidth - r.width) * 0.5; // center
+                r.x = (appWidth - r.width) * 0.5; // center
                 keyHolder.addChild(r);
 
                 startY += (r.height + 10);
@@ -351,10 +352,10 @@ package nid.ui.controls.vkb
 
             keyHolder.graphics.clear();
             keyHolder.graphics.beginFill(0x000000);
-            keyHolder.graphics.drawRect(0, 0, stageWidth, keyHolder.height + 40);
+            keyHolder.graphics.drawRect(0, 0, appWidth, keyHolder.height + 40);
             keyHolder.graphics.endFill();
 
-            close.x = stageWidth - close.width - 10;
+            close.x = appWidth - close.width - 10;
         }
 
         public function get keyHolderHeight():Number

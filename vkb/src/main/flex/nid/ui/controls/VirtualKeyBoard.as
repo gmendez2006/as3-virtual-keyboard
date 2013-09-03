@@ -10,6 +10,7 @@ package  nid.ui.controls
 
     import nid.ui.controls.vkb.KeyBoardEvent;
     import nid.ui.controls.vkb.KeyBoardUI;
+    import nid.ui.controls.vkb.text.DisplayObjectUtil;
     import nid.ui.controls.vkb.text.ITextInputWrapper;
     import nid.ui.controls.vkb.text.TextInputWrapperUtil;
 
@@ -40,7 +41,7 @@ package  nid.ui.controls
         private var _isActive:Boolean;
 
         private var _stage:Stage;
-        private var _topLevelParent:DisplayObject;
+        private var _app:DisplayObject;
         private var _lastOffset:Number;
 
         public function VirtualKeyBoard(target:IEventDispatcher = null)
@@ -51,12 +52,12 @@ package  nid.ui.controls
             _keyboard.addEventListener(KeyBoardEvent.UPDATE, keyboard_onUpdate);
         }
 
-        public function init(stage:Stage, topLevelParent:DisplayObject = null):void
+        public function init(stage:Stage, app:DisplayObject = null):void
         {
             _stage = stage;
-            _topLevelParent = topLevelParent;
+            _app = app || stage;
 
-            _keyboard._stage = _stage;
+            _keyboard.app = _app;
             _stage.addEventListener(Event.RESIZE, stage_onResize);
         }
 
@@ -74,32 +75,39 @@ package  nid.ui.controls
 
             Tweener.addTween(_keyboard, {
                 alpha: 0,
-                y: _stage.stageHeight,
+                y: appBottom,
                 time: TRANSITION_TIME,
                 transition: TRANSITION,
                 onComplete: keyboard_onHideComplete
             });
-            offsetY(_topLevelParent, -_lastOffset, true); // revert original offset, if any
+            offsetY(_app, -_lastOffset, true); // revert original offset, if any
             _lastOffset = NaN;
         }
 
         /* *** Utility functions *** */
 
+        private function get appBottom():Number
+        {
+            return DisplayObjectUtil.getGlobalBottom(_app) - nanToZero(_lastOffset);
+        }
+
         private function get keyboardTop():Number
         {
             // Note: we don't take the close button into account when detecting overlaps
-            return _stage.stageHeight - _keyboard.keyHolderHeight;
+            return appBottom - _keyboard.keyHolderHeight;
         }
 
         private function positionKeyboard():void
         {
+            _keyboard.x = _app.x;
+
             if (_isActive) // skip animation
             {
                 _keyboard.y = keyboardTop;
             }
             else           // slide keyboard up
             {
-                _keyboard.y = _stage.stageHeight;
+                _keyboard.y = appBottom;
                 _keyboard.alpha = 0;
                 _stage.addChild(_keyboard);
                 Tweener.addTween(_keyboard, {
@@ -113,17 +121,22 @@ package  nid.ui.controls
 
         private function positionTopLevelParent(allowDownAdjustments:Boolean = false):void
         {
-            if (_topLevelParent === null) return;
+            if (_app === null) return;
 
             var targetBottom:Number = _target.globalBottom + 4; // Adding some padding
             var newOffset:Number = keyboardTop - targetBottom;
-            var previousOffset:Number = isNaN(_lastOffset) ? 0 : _lastOffset;
+            var previousOffset:Number = nanToZero(_lastOffset);
             var totalOffset:Number = previousOffset + newOffset;
             if (isNaN(_lastOffset) || !allowDownAdjustments ? newOffset < 0 : totalOffset <= 0) // we mostly move things up (negative offset) but
             {                                                                                   // allow for positive offsets that don't go beyond
                 _lastOffset = totalOffset === 0 ? NaN : totalOffset;                            // original topLevelParent position (offset = 0)
-                offsetY(_topLevelParent, newOffset, !_isActive);
+                offsetY(_app, newOffset, !_isActive);
             }
+        }
+
+        private static function nanToZero(n:Number):Number
+        {
+            return isNaN(n) ? 0 : n;
         }
 
         private static function offsetY(displayObject:DisplayObject, offset:Number, animate:Boolean):void
