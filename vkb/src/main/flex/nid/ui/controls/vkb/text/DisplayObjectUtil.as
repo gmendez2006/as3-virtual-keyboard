@@ -6,9 +6,8 @@
 package nid.ui.controls.vkb.text
 {
     import flash.display.DisplayObject;
+    import flash.display.Stage;
     import flash.geom.Point;
-
-    import mx.managers.ISystemManager;
 
     public class DisplayObjectUtil
     {
@@ -31,22 +30,26 @@ package nid.ui.controls.vkb.text
          * that is a direct child of the SystemManager.
          *
          * @param displayObject
+         * @param systemManagerClass (optional) Defaults to Stage if nothing is provided
          * @return top-level parent
          */
-        public static function topLevelParent(displayObject:DisplayObject):DisplayObject
+        public static function topLevelParent(displayObject:DisplayObject,
+                                              systemManagerClass:Class = null):DisplayObject
         {
             if (displayObject === null) throw new ArgumentError('Invalid display object (null).');
 
+            //noinspection AssignmentToFunctionParameterJS
+            systemManagerClass ||= Stage;
+
             var parent:DisplayObject;
             var nextParent:DisplayObject = displayObject;
-
             do
             {
                 parent = nextParent;
                 nextParent = parent.parent;
                 //trace(parent);
             }
-            while (!(nextParent === null || nextParent is ISystemManager));
+            while (!(nextParent === null || nextParent is systemManagerClass));
 
             return parent;
         }

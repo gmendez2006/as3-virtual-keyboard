@@ -5,6 +5,7 @@
  */
 package nid.ui.controls.vkb.text
 {
+    import flash.display.DisplayObject;
     import flash.text.TextField;
 
     public class TextFieldWrapper implements ITextInputWrapper
@@ -28,11 +29,6 @@ package nid.ui.controls.vkb.text
             input.replaceSelectedText(text);
         }
 
-        public function get globalBottom():Number
-        {
-            return DisplayObjectUtil.getGlobalBottom(input);
-        }
-
         public function backspace():void
         {
             const start:int = input.selectionBeginIndex;
@@ -46,6 +42,16 @@ package nid.ui.controls.vkb.text
             }
             input.setSelection(start, end);
             input.replaceSelectedText('');
+        }
+
+        public function get globalBottom():Number
+        {
+            return DisplayObjectUtil.getGlobalBottom(input);
+        }
+
+        public function get topLevelParent():DisplayObject
+        {
+            return DisplayObjectUtil.topLevelParent(input);
         }
     }
 }

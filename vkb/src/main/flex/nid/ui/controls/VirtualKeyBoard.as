@@ -43,6 +43,7 @@ package  nid.ui.controls
         private var _stage:Stage;
         private var _app:DisplayObject;
         private var _lastOffset:Number;
+        private var _lastTopLevelParent:DisplayObject;
 
         public function VirtualKeyBoard(target:IEventDispatcher = null)
         {
@@ -80,15 +81,15 @@ package  nid.ui.controls
                 transition: TRANSITION,
                 onComplete: keyboard_onHideComplete
             });
-            offsetY(_app, -_lastOffset, true); // revert original offset, if any
-            _lastOffset = NaN;
+            revertOffset(true);
         }
 
         /* *** Utility functions *** */
 
         private function get appBottom():Number
         {
-            return DisplayObjectUtil.getGlobalBottom(_app) - nanToZero(_lastOffset);
+            const appOffset:Number = _app === _lastTopLevelParent ? nanToZero(_lastOffset) : 0;
+            return DisplayObjectUtil.getGlobalBottom(_app) - appOffset;
         }
 
         private function get keyboardTop():Number
@@ -121,16 +122,20 @@ package  nid.ui.controls
 
         private function positionTopLevelParent(allowDownAdjustments:Boolean = false):void
         {
-            if (_app === null) return;
+            const topLevelParent:DisplayObject = _target.topLevelParent;
+            if (topLevelParent !== _lastTopLevelParent)
+            {
+                revertOffset(false);                    // revert offset on previous parent, and
+                _lastTopLevelParent = topLevelParent;   // start tracking new parent
+            }
 
-            var targetBottom:Number = _target.globalBottom + 4; // Adding some padding
-            var newOffset:Number = keyboardTop - targetBottom;
-            var previousOffset:Number = nanToZero(_lastOffset);
-            var totalOffset:Number = previousOffset + newOffset;
+            const targetBottom:Number = _target.globalBottom + 4; // Adding some padding
+            const newOffset:Number = keyboardTop - targetBottom;
+            const totalOffset:Number = nanToZero(_lastOffset) + newOffset;
             if (isNaN(_lastOffset) || !allowDownAdjustments ? newOffset < 0 : totalOffset <= 0) // we mostly move things up (negative offset) but
             {                                                                                   // allow for positive offsets that don't go beyond
                 _lastOffset = totalOffset === 0 ? NaN : totalOffset;                            // original topLevelParent position (offset = 0)
-                offsetY(_app, newOffset, !_isActive);
+                offsetY(_lastTopLevelParent, newOffset, !_isActive);
             }
         }
 
@@ -155,6 +160,13 @@ package  nid.ui.controls
             {
                 displayObject.y += offset;
             }
+        }
+
+        private function revertOffset(animate:Boolean):void
+        {
+            offsetY(_lastTopLevelParent, -_lastOffset, animate); // revert original offset, if any
+            _lastOffset = NaN;
+            _lastTopLevelParent = null;
         }
 
         private function backspace():void

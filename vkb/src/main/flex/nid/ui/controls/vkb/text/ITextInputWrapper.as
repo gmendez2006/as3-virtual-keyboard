@@ -5,6 +5,8 @@
  */
 package nid.ui.controls.vkb.text
 {
+    import flash.display.DisplayObject;
+
     public interface ITextInputWrapper
     {
         /**
@@ -29,5 +31,10 @@ package nid.ui.controls.vkb.text
          *  (Stage) coordinates.
          */
         function get globalBottom():Number;
+
+        /**
+         *  The top-level parent of this component.
+         */
+        function get topLevelParent():DisplayObject;
     }
 }

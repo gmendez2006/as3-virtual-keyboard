@@ -5,11 +5,13 @@
  */
 package nid.ui.controls.vkb.text
 {
+    import flash.display.DisplayObject;
     import flash.events.Event;
 
     import mx.controls.TextInput;
     import mx.core.IUITextField;
     import mx.core.mx_internal;
+    import mx.managers.ISystemManager;
 
     use namespace mx_internal;
 
@@ -50,6 +52,11 @@ package nid.ui.controls.vkb.text
         public function get globalBottom():Number
         {
             return DisplayObjectUtil.getGlobalBottom(input);
+        }
+
+        public function get topLevelParent():DisplayObject
+        {
+            return DisplayObjectUtil.topLevelParent(input, ISystemManager);
         }
 
         private function replaceSelectedText(text:String):void

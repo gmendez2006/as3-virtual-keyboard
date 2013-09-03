@@ -7,6 +7,8 @@ package nid.ui.controls.vkb.text
 {
     import flash.display.DisplayObject;
 
+    import mx.managers.ISystemManager;
+
     import spark.core.IEditableText;
 
     public class EditableTextWrapper implements ITextInputWrapper
@@ -44,7 +46,17 @@ package nid.ui.controls.vkb.text
 
         public function get globalBottom():Number
         {
-            return DisplayObjectUtil.getGlobalBottom(input as DisplayObject);
+            return DisplayObjectUtil.getGlobalBottom(displayObject);
+        }
+
+        public function get topLevelParent():DisplayObject
+        {
+            return DisplayObjectUtil.topLevelParent(displayObject, ISystemManager);
+        }
+
+        private function get displayObject():DisplayObject
+        {
+            return input as DisplayObject;
         }
     }
 }
