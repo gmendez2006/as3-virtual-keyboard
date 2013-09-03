@@ -22,7 +22,7 @@ package
             stage.scaleMode = StageScaleMode.NO_SCALE;
             stage.align = StageAlign.TOP_LEFT;
 
-            VirtualKeyBoard.instance.init(stage, this);
+            VirtualKeyBoard.instance.init(stage, this); // TODO fix keyboard positioning logic
 
             var tf:TextField = new TextField();
             tf.selectable = true;
