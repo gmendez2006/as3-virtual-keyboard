@@ -58,7 +58,7 @@ package  nid.ui.controls
             _app = app || stage;
 
             _keyboard.app = _app;
-            _stage.addEventListener(Event.RESIZE, stage_onResize);
+            _app.addEventListener(Event.RESIZE, app_onResize);
         }
 
         public function show(target:*, keyboardType:String = null):void
@@ -206,7 +206,7 @@ package  nid.ui.controls
             }
         }
 
-        private function stage_onResize(e:Event = null):void
+        private function app_onResize(e:Event = null):void
         {
             if (!_isActive) return;
             _keyboard.build();
