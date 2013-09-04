@@ -5,7 +5,7 @@
 
     <groupId>vkb</groupId>
     <artifactId>vkb-parent</artifactId>
-    <version>1.103-SNAPSHOT</version>
+    <version>1.103</version>
 
     <packaging>pom</packaging>
 
